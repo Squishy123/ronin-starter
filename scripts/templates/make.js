@@ -1,4 +1,4 @@
-export const MAKE_MIGRATION = `
+exports.MAKE_MIGRATION = `
 export default class %MIGRATION% {
     //Migration update
     up() {
@@ -11,7 +11,7 @@ export default class %MIGRATION% {
     }
 }`;
 
-export const MAKE_MODEL = `
+exports.MAKE_MODEL = `
 import mongoose from 'mongoose';
 
 //Defined Schema
@@ -24,7 +24,7 @@ let %MODEL% = mongoose.model('%MODEL%', Schema);
 
 export default %MODEL%`;
 
-export const MAKE_ROUTE = `
+exports.MAKE_ROUTE = `
 export default {
     method: "%METHOD%",
     path: "%PATH%",
