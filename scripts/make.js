@@ -13,7 +13,7 @@ Supported Commands: migration, model, route
 `);
     }
 
-    //make:migration
+    //make:migration %NAME%
     if (args[0].includes('migration')) {
         if (!args[1])
             console.error("Error: No Name Specified.")
@@ -24,16 +24,18 @@ Supported Commands: migration, model, route
             migration = migration.replace(/%MIGRATION%/g, camelCase(args[1], { pascalCase: true }));
         } else {
             migration = migration.replace(/%MIGRATION%/g, camelCase(args[1].substr(args[1].lastIndexOf('/') + 1), { pascalCase: true }));
-            if (!fs.existsSync(`./src/server/migrations/${args[1]}.js`)) {
-                fs.mkdirSync(`./src/server/migrations/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`);
+            if (args[1].lastIndexOf('/') != -1) {
+                if (!fs.existsSync(`./src/server/migrations/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
+                    fs.mkdirSync(`./src/server/migrations/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
+                }
             }
         }
 
-        fs.writeFileSync(`./src/server/migrations/${camelCase(args[1], { pascalCase: true })}.js`, migration, { flag: 'wx' });
+        fs.writeFileSync(`./src/server/migrations/${camelCase(args[1])}.js`, migration, { flag: 'wx' });
         console.log(`Migration Successfully Created!`)
     }
 
-    //make:model
+    //make:model %NAME%
     if (args[0].includes('model')) {
         if (!args[1])
             console.error("Error: No Name Specified.")
@@ -44,12 +46,32 @@ Supported Commands: migration, model, route
             model = model.replace(/%MODEL%/g, camelCase(args[1], { pascalCase: true }));
         } else {
             model = model.replace(/%MODEL%/g, camelCase(args[1].substr(args[1].lastIndexOf('/') + 1), { pascalCase: true }));
-            if (!fs.existsSync(`./src/app/models/${args[1]}.js`)) {
-                fs.mkdirSync(`./src/app/models/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`);
+            if (args[1].lastIndexOf('/') != -1) {
+                if (!fs.existsSync(`./src/app/models/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
+                    fs.mkdirSync(`./src/app/models/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
+                }
             }
         }
 
-        fs.writeFileSync(`./src/app/models/${camelCase(args[1], { pascalCase: true })}.js`, model, { flag: 'wx' });
+        fs.writeFileSync(`./src/app/models/${camelCase(args[1])}.js`, model, { flag: 'wx' });
         console.log(`Model Successfully Created!`)
+    }
+
+    //make:route %NAME% %METHOD% %PATH
+    if (args[0].includes('route')) {
+        if (!args[1])
+            console.error("Error: No Name Specified.")
+
+        let model = templates.MAKE_ROUTE;
+        model = model.replace(/%METHOD%/g, args[2].toUpperCase()).replace(/%PATH%/g, args[3].toLowerCase());
+
+        if (args[1].lastIndexOf('/') != -1) {
+            if (!fs.existsSync(`./src/app/routes/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
+                fs.mkdirSync(`./src/app/routes/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
+            }
+        }
+
+        fs.writeFileSync(`./src/app/routes/${camelCase(args[1])}.js`, model, { flag: 'wx' });
+        console.log(`Route Successfully Created!`)
     }
 }
