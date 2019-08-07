@@ -23,11 +23,10 @@ Supported Commands: migration, model, route`);
             migration = migration.replace(/%MIGRATION%/g, camelCase(args[1], { pascalCase: true }));
         } else {
             migration = migration.replace(/%MIGRATION%/g, camelCase(args[1].substr(args[1].lastIndexOf('/') + 1), { pascalCase: true }));
-            if (args[1].lastIndexOf('/') != -1) {
-                if (!fs.existsSync(`./src/server/migrations/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
-                    fs.mkdirSync(`./src/server/migrations/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
-                }
-            }
+        }
+
+        if (!fs.existsSync(`./src/server/migrations/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
+            fs.mkdirSync(`./src/server/migrations/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
         }
 
         fs.writeFileSync(`./src/server/migrations/${camelCase(args[1])}.js`, migration, { flag: 'wx' });
@@ -45,11 +44,10 @@ Supported Commands: migration, model, route`);
             model = model.replace(/%MODEL%/g, camelCase(args[1], { pascalCase: true }));
         } else {
             model = model.replace(/%MODEL%/g, camelCase(args[1].substr(args[1].lastIndexOf('/') + 1), { pascalCase: true }));
-            if (args[1].lastIndexOf('/') != -1) {
-                if (!fs.existsSync(`./src/app/models/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
-                    fs.mkdirSync(`./src/app/models/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
-                }
-            }
+        }
+
+        if (!fs.existsSync(`./src/app/models/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
+            fs.mkdirSync(`./src/app/models/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
         }
 
         fs.writeFileSync(`./src/app/models/${camelCase(args[1])}.js`, model, { flag: 'wx' });
@@ -64,10 +62,8 @@ Supported Commands: migration, model, route`);
         let model = templates.MAKE_ROUTE;
         model = model.replace(/%METHOD%/g, args[2].toUpperCase()).replace(/%PATH%/g, args[3].toLowerCase());
 
-        if (args[1].lastIndexOf('/') != -1) {
-            if (!fs.existsSync(`./src/app/routes/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
-                fs.mkdirSync(`./src/app/routes/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
-            }
+        if (!fs.existsSync(`./src/app/routes/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`)) {
+            fs.mkdirSync(`./src/app/routes/${camelCase(args[1]).substr(0, args[1].lastIndexOf('/'))}`, { recursive: true });
         }
 
         fs.writeFileSync(`./src/app/routes/${camelCase(args[1])}.js`, model, { flag: 'wx' });
