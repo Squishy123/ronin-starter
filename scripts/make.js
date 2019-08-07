@@ -9,12 +9,11 @@ module.exports = (args) => {
         console.log(
             `Usage: ronin make:[cmd] [args]
 
-Supported Commands: migration, model, route
-`);
+Supported Commands: migration, model, route`);
     }
 
     //make:migration %NAME%
-    if (args[0].includes('migration')) {
+    if (args[0] === 'make:migration') {
         if (!args[1])
             console.error("Error: No Name Specified.")
 
@@ -36,7 +35,7 @@ Supported Commands: migration, model, route
     }
 
     //make:model %NAME%
-    if (args[0].includes('model')) {
+    if (args[0] === 'make:model') {
         if (!args[1])
             console.error("Error: No Name Specified.")
 
@@ -58,7 +57,7 @@ Supported Commands: migration, model, route
     }
 
     //make:route %NAME% %METHOD% %PATH
-    if (args[0].includes('route')) {
+    if (args[0] === 'make:route') {
         if (!args[1])
             console.error("Error: No Name Specified.")
 
