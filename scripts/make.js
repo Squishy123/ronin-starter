@@ -29,8 +29,7 @@ Supported Commands: migration, model, route
             }
         }
 
-        console.log(`Making Migration ${args[1]}`);
-        fs.writeFileSync(`./src/server/migrations/${args[1]}.js`, migration, { flag: 'wx' });
+        fs.writeFileSync(`./src/server/migrations/${camelCase(args[1], { pascalCase: true })}.js`, migration, { flag: 'wx' });
         console.log(`Migration Successfully Created!`)
     }
 
@@ -50,8 +49,7 @@ Supported Commands: migration, model, route
             }
         }
 
-        console.log(`Making Model ${args[1]}`);
-        fs.writeFileSync(`./src/app/models/${args[1]}.js`, model, { flag: 'wx' });
+        fs.writeFileSync(`./src/app/models/${camelCase(args[1], { pascalCase: true })}.js`, model, { flag: 'wx' });
         console.log(`Model Successfully Created!`)
     }
 }
