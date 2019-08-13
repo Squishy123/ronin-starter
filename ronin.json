@@ -1,10 +1,23 @@
 {
-    "models": [],
-    "migrations": {
-        "order": [],
-        "up": [],
-        "down": []
-    },
-    "modules": [],
-    "routes": []
+  "models": [],
+  "migrations": {
+    "order": [],
+    "up": [],
+    "down": []
+  },
+  "modules": [
+    {
+      "name": "routeLoader",
+      "path": "src/server/modules/routeLoader.js",
+      "createdAt": "2019-08-13T18:28:52.503Z"
+    }
+  ],
+  "middlewares": [
+    {
+      "name": "generalFunctions",
+      "path": "src/app/middlewares/generalFunctions.js",
+      "createdAt": "2019-08-13T19:27:55.641Z"
+    }
+  ],
+  "routes": []
 }
