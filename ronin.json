@@ -19,5 +19,11 @@
       "createdAt": "2019-08-13T19:27:55.641Z"
     }
   ],
-  "routes": []
+  "routes": [
+    {
+      "name": "helloworld",
+      "path": "src/app/routes/helloworld.js",
+      "createdAt": "2019-08-14T18:50:07.008Z"
+    }
+  ]
 }

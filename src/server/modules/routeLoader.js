@@ -1,7 +1,7 @@
 const path = require('path');
 const glob = require('glob');
 
-const combineParsed = require('../../app/middleware/generalFunctions').combineParsed;
+const combineParsed = require('../../app/middlewares/generalFunctions').combineParsed;
 
 /**
  * @class HTTPRouteLoaderOptions
@@ -154,7 +154,7 @@ export default class RouteLoader {
         //load objects
         glob.sync(dir ? dir + '/**/*.js' : this.opts.dir + '/**/*.js').forEach(
             function(file) {
-                let routeObject = require(file);
+                let routeObject = require(file).default;
                 //strict check
                 if (!this.loadObject(routeObject) && this.opts.strict) return;
             }.bind(this)
