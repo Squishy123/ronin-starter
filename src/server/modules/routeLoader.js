@@ -2,6 +2,8 @@ const path = require('path');
 const glob = require('glob');
 
 const combineParsed = require('../../app/middlewares/generalFunctions').combineParsed;
+const chokidar = require('chokidar');
+
 
 /**
  * @class HTTPRouteLoaderOptions
@@ -38,7 +40,43 @@ export default class RouteLoader {
 
         if (opts.binds) this.binds = opts.binds;
 
+        if (opts.watch) {
+            let watcher = chokidar.watch(this.opts.dir);
+            watcher.on('add', (path) => {
+                console.log(`Reloading route: ${path}`);
+                let obj = require(path).default;
+                this.unloadObject(obj);
+                this.loadObject(obj)
+                console.log(`Reloading Complete!`);
+            }).on('change', (path) => {
+                console.log(`Reloading route: ${path}`);
+                let obj = require(path).default;
+                this.unloadObject(obj);
+                this.loadObject(obj)
+                console.log(`Reloading Complete!`);
+            });
+        }
+
         this.loadedRoutes = [];
+    }
+
+    unloadObject(routeObject) {
+        let existIndex = this.loadedRoutes.findIndex(function (r) {
+            return (
+                r.path === routeObject.path && r.method === routeObject.method
+            );
+        });
+
+        //console.log(this.server._router.stack);
+
+        this.loadedRoutes.splice(existIndex, 1);
+        let serverIndex = this.server._router.stack.findIndex((r) => {
+            //console.log(r.route);
+            if (r.route)
+                return (r.route.path === routeObject.path && r.route.methods[routeObject.method.toLowerCase()])
+        });
+        console.log(serverIndex);
+        this.server._router.stack.splice(serverIndex, 1);
     }
 
     /**
@@ -48,7 +86,7 @@ export default class RouteLoader {
      */
     loadObject(routeObject) {
         //check if route is already taken
-        let exist = this.loadedRoutes.find(function(r) {
+        let exist = this.loadedRoutes.find(function (r) {
             return (
                 r.path === routeObject.path && r.method === routeObject.method
             );
@@ -91,7 +129,7 @@ export default class RouteLoader {
                 console.error(
                     new Error(
                         `HTTPRouteLoader Error: Route method ${
-                            routeObject.method
+                        routeObject.method
                         } is invalid`
                     )
                 );
@@ -105,7 +143,7 @@ export default class RouteLoader {
             if (this.opts.verbose) {
                 console.log(
                     `Success: Added new HTTP route ${routeObject.method} ${
-                        routeObject.path
+                    routeObject.path
                     }`
                 );
             }
@@ -114,7 +152,7 @@ export default class RouteLoader {
             if (this.opts.verbose) {
                 console.log(
                     `Error: No Handler found for ${routeObject.method} ${
-                        routeObject.path
+                    routeObject.path
                     }`
                 );
             }
@@ -130,7 +168,7 @@ export default class RouteLoader {
     loadObjects(routeObjects) {
         if (!this.opts.dir && plugins.length > 0) {
             //load all routes
-            routeObjects.forEach(function(route, i) {
+            routeObjects.forEach(function (route, i) {
                 //strict check
                 if (!loadObject(route) && this.opts.strict) return;
             });
@@ -153,7 +191,7 @@ export default class RouteLoader {
 
         //load objects
         glob.sync(dir ? dir + '/**/*.js' : this.opts.dir + '/**/*.js').forEach(
-            function(file) {
+            function (file) {
                 let routeObject = require(file).default;
                 //strict check
                 if (!this.loadObject(routeObject) && this.opts.strict) return;
