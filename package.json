@@ -25,7 +25,7 @@
     "nodemon": "^1.19.1"
   },
   "scripts": {
-    "dev": "babel-node src/server/server.js",
+    "dev": "nodemon --exec babel-node src/server/server.js",
     "format": "prettier --write \"./**/*.{js,jsx,json}\""
   }
 }

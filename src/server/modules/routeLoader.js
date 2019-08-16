@@ -39,44 +39,7 @@ export default class RouteLoader {
         };
 
         if (opts.binds) this.binds = opts.binds;
-
-        if (opts.watch) {
-            let watcher = chokidar.watch(this.opts.dir);
-            watcher.on('add', (path) => {
-                console.log(`Reloading route: ${path}`);
-                let obj = require(path).default;
-                this.unloadObject(obj);
-                this.loadObject(obj)
-                console.log(`Reloading Complete!`);
-            }).on('change', (path) => {
-                console.log(`Reloading route: ${path}`);
-                let obj = require(path).default;
-                this.unloadObject(obj);
-                this.loadObject(obj)
-                console.log(`Reloading Complete!`);
-            });
-        }
-
         this.loadedRoutes = [];
-    }
-
-    unloadObject(routeObject) {
-        let existIndex = this.loadedRoutes.findIndex(function (r) {
-            return (
-                r.path === routeObject.path && r.method === routeObject.method
-            );
-        });
-
-        //console.log(this.server._router.stack);
-
-        this.loadedRoutes.splice(existIndex, 1);
-        let serverIndex = this.server._router.stack.findIndex((r) => {
-            //console.log(r.route);
-            if (r.route)
-                return (r.route.path === routeObject.path && r.route.methods[routeObject.method.toLowerCase()])
-        });
-        console.log(serverIndex);
-        this.server._router.stack.splice(serverIndex, 1);
     }
 
     /**

@@ -19,7 +19,6 @@ server.use(bodyParser.json());
     let routeLoader = new RouteLoader(server, {
         dir: path.join(__dirname, '../app/routes'),
         verbose: true,
-        watch: true,
         strict: false,
         binds: {
         },
