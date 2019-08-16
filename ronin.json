@@ -17,6 +17,16 @@
       "name": "generalFunctions",
       "path": "src/app/middlewares/generalFunctions.js",
       "createdAt": "2019-08-13T19:27:55.641Z"
+    },
+    {
+      "name": "general/combineParsed",
+      "path": "src/app/middlewares/general/combineParsed.js",
+      "createdAt": "2019-08-16T19:52:49.992Z"
+    },
+    {
+      "name": "general/sendPayload",
+      "path": "src/app/middlewares/general/sendPayload.js",
+      "createdAt": "2019-08-16T19:53:19.853Z"
     }
   ],
   "routes": [

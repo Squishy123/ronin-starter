@@ -1,9 +1,15 @@
 const path = require('path');
 const glob = require('glob');
 
-const combineParsed = require('../../app/middlewares/generalFunctions').combineParsed;
-const chokidar = require('chokidar');
+import combineParsed from '../../app/middlewares/general/combineParsed';
+import sendPayload from '../../app/middlewares/general/sendPayload';
 
+function packageMiddle(middle) {
+    return (req, res, next) => {
+        middle(req, res);
+        next();
+    };
+}
 
 /**
  * @class HTTPRouteLoaderOptions
@@ -66,15 +72,19 @@ export default class RouteLoader {
             //check if arr of middleware
             if (Array.isArray(routeObject.handler)) {
                 //add parser
-                routeObject.handler.unshift(combineParsed);
+                routeObject.handler.unshift(packageMiddle(combineParsed));
+
+                //add payload sender
+                routeObject.handler.push(packageMiddle(sendPayload));
 
                 for (let i = 0; i < routeObject.handler.length; i++) {
-                    routeObject.handler[i] = routeObject.handler[i].bind(this);
+                    routeObject.handler[i] = packageMiddle(routeObject.handler[i].bind(this));
                 }
             } else {
                 routeObject.handler = [
-                    combineParsed.bind(this),
-                    routeObject.handler.bind(this),
+                    packageMiddle(combineParsed.bind(this)),
+                    packageMiddle(routeObject.handler.bind(this)),
+                    packageMiddle(sendPayload.bind(this))
                 ];
             }
             //http method
