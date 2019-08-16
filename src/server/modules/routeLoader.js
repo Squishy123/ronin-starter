@@ -7,7 +7,8 @@ import sendPayload from '../../app/middlewares/general/sendPayload';
 function packageMiddle(middle) {
     return (req, res, next) => {
         middle(req, res);
-        next();
+        if(next) 
+            next();
     };
 }
 

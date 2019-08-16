@@ -14,11 +14,6 @@
   ],
   "middlewares": [
     {
-      "name": "generalFunctions",
-      "path": "src/app/middlewares/generalFunctions.js",
-      "createdAt": "2019-08-13T19:27:55.641Z"
-    },
-    {
       "name": "general/combineParsed",
       "path": "src/app/middlewares/general/combineParsed.js",
       "createdAt": "2019-08-16T19:52:49.992Z"
@@ -33,7 +28,7 @@
     {
       "name": "helloworld",
       "path": "src/app/routes/helloworld.js",
-      "createdAt": "2019-08-14T18:50:07.008Z"
+      "createdAt": "2019-08-16T20:13:01.703Z"
     }
   ]
 }
