@@ -1,3 +1,7 @@
+#envs
+.env.dev
+.env.prod
+
 #mongodata
 mongodata
 

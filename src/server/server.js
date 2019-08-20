@@ -6,6 +6,17 @@ const bodyParser = require('body-parser');
 import RouteLoader from './modules/routeLoader';
 import connectMongo from './modules/connectMongo';
 
+//load env vars
+if (process.env.NODE_ENV == 'development')
+    require('custom-env').env('dev');
+
+if (process.env.NODE_ENV == 'production')
+    require('custom-env').env('prod');
+
+
+
+console.log(process.env.DB_URL);
+
 let server = express();
 
 // allow cross origin requests
@@ -17,9 +28,6 @@ server.use(bodyParser.json());
 
 (async function () {
     try {
-        //load env vars
-        require('dotenv').config();
-
         //connect to mongodb
         await connectMongo();
 
