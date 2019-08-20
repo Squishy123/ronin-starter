@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 import RouteLoader from './modules/routeLoader';
+import connectMongo from './modules/connectMongo';
 
 let server = express();
 
@@ -15,17 +16,28 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
 (async function () {
-    //load all routes
-    let routeLoader = new RouteLoader(server, {
-        dir: path.join(__dirname, '../app/routes'),
-        verbose: true,
-        strict: false,
-        binds: {
-        },
-    });
-    await routeLoader.loadDir();
+    try {
+        //load env vars
+        require('dotenv').config();
 
-    server.listen(3000, function() {
-        console.log(`${server.name} listening at http://localhost:3000`);
-    });
+        //connect to mongodb
+        await connectMongo();
+
+        //load all routes
+        let routeLoader = new RouteLoader(server, {
+            dir: path.join(__dirname, '../app/routes'),
+            verbose: true,
+            strict: true,
+            binds: {
+            },
+        });
+        await routeLoader.loadDir();
+
+        server.listen(3000, function () {
+            console.log(`${server.name} listening at http://localhost:3000`);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+
 })();

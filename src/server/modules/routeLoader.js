@@ -63,7 +63,7 @@ export default class RouteLoader {
         });
         if (exist) {
             if (this.opts.verbose)
-                console.error(
+               throw(
                     new Error(`HTTPRouteLoader Error: Route already taken`)
                 );
             return;
@@ -100,7 +100,7 @@ export default class RouteLoader {
             else if (routeObject.method === 'DELETE')
                 this.server.delete(routeObject.path, routeObject.handler);
             else {
-                console.error(
+               throw(
                     new Error(
                         `HTTPRouteLoader Error: Route method ${
                         routeObject.method
@@ -124,7 +124,7 @@ export default class RouteLoader {
         } else {
             //verbose
             if (this.opts.verbose) {
-                console.log(
+                throw(
                     `Error: No Handler found for ${routeObject.method} ${
                     routeObject.path
                     }`
@@ -157,7 +157,7 @@ export default class RouteLoader {
     loadDir(dir) {
         //check if dir exists
         if (!dir && !this.opts.dir) {
-            console.error(
+           throw(
                 new Error(`HTTPRouteLoader Error: No directory specified`)
             );
             return;
