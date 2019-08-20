@@ -13,10 +13,6 @@ if (process.env.NODE_ENV == 'development')
 if (process.env.NODE_ENV == 'production')
     require('custom-env').env('prod');
 
-
-
-console.log(process.env.DB_URL);
-
 let server = express();
 
 // allow cross origin requests
