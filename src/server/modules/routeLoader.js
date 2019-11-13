@@ -5,9 +5,10 @@ import combineParsed from '../../app/middlewares/general/combineParsed';
 import sendPayload from '../../app/middlewares/general/sendPayload';
 
 function packageMiddle(middle) {
-    return (req, res, next) => {
+    return async function (req, res, next) {
+        await middle(req, res);
         middle(req, res);
-        if(next) 
+        if (next)
             next();
     };
 }
@@ -63,7 +64,7 @@ export default class RouteLoader {
         });
         if (exist) {
             if (this.opts.verbose)
-               throw(
+                throw (
                     new Error(`HTTPRouteLoader Error: Route already taken`)
                 );
             return;
@@ -100,7 +101,7 @@ export default class RouteLoader {
             else if (routeObject.method === 'DELETE')
                 this.server.delete(routeObject.path, routeObject.handler);
             else {
-               throw(
+                throw (
                     new Error(
                         `HTTPRouteLoader Error: Route method ${
                         routeObject.method
@@ -124,7 +125,7 @@ export default class RouteLoader {
         } else {
             //verbose
             if (this.opts.verbose) {
-                throw(
+                throw (
                     `Error: No Handler found for ${routeObject.method} ${
                     routeObject.path
                     }`
@@ -157,7 +158,7 @@ export default class RouteLoader {
     loadDir(dir) {
         //check if dir exists
         if (!dir && !this.opts.dir) {
-           throw(
+            throw (
                 new Error(`HTTPRouteLoader Error: No directory specified`)
             );
             return;
