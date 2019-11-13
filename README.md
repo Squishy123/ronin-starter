@@ -3,10 +3,6 @@
 ## Getting Started
 ### Install Dependencies
 ```console
-yarn
-```
-or
-```console
 npm install
 ```
 
@@ -23,5 +19,5 @@ docker-compose up
 
 ### Start development server
 ```console
-yarn dev
+npm run dev
 ```
