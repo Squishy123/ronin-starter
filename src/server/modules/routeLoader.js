@@ -48,6 +48,15 @@ export default class RouteLoader {
             return;
         }
 
+        if(!routeObject.enabled) {
+            console.log(
+                `Disabled HTTP route ${routeObject.method} ${
+                routeObject.path
+                }`
+            );
+            return;
+        }
+
         if (routeObject.handler) {
             //check if arr of middleware
             if (Array.isArray(routeObject.handler)) {
