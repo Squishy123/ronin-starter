@@ -18,29 +18,7 @@ function packageMiddle(middle) {
     };
 }
 
-/**
- * @class HTTPRouteLoaderOptions
- * @type {Object}
- * @property {String} [dir='src/HTTPRoutes"] The routeObject directory
- * @property {boolean} [verbose=true] Verbose output messages
- * @property {boolean} [strict=false] Strict checks on plugin validity, stop loading if invalid
- */
-
-/**
- * @class HTTPRouteLoader
- * @type {Object}
- * @property {RestifyServer} server restify server reference
- * @property {HTTPRouteLoaderOptions} opts loader properties
- * @property {Array.HTTPRouteObject} loadedRoutes routes loaded
- * @classdesc HTTPRouteLoader for setting up the HTTP routes for
- *  multiple HTTPRouteObject
- */
 export default class RouteLoader {
-    /**
-     * Create a new HTTPRouteLoader
-     * @param {RestifyServer} server restify server reference
-     * @param {HTTPRouteLoaderOptions} opts loader properties
-     */
     constructor(server, opts) {
         this.server = server;
         this.opts = {
@@ -55,11 +33,6 @@ export default class RouteLoader {
         this.loadedRoutes = [];
     }
 
-    /**
-     * Load a single HTTPRouteObject
-     * @param {HTTPRouteObject} routeObject  A HTTPRouteObject to load
-     * @return {(null | HTTPRouteObject)} Returns null on error, HTTPRouteObject on success
-     */
     loadObject(routeObject) {
         //check if route is already taken
         let exist = this.loadedRoutes.find(function (r) {
@@ -141,10 +114,6 @@ export default class RouteLoader {
         return routeObject;
     }
 
-    /**
-     * Load a list of HTTPRouteObjects
-     * @param  {Array.HTTPRouteObject} routeObjects An array of HTTPRouteObjects
-     */
     loadObjects(routeObjects) {
         if (!this.opts.dir && plugins.length > 0) {
             //load all routes
@@ -156,10 +125,6 @@ export default class RouteLoader {
         }
     }
 
-    /**
-     * Load HTTPRouteObject modules from a directory
-     * @param {String} [dir=this.opts.dir] A string path to route module directory
-     */
     loadDir(dir) {
         //check if dir exists
         if (!dir && !this.opts.dir) {
