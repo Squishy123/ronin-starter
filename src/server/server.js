@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 import RouteLoader from './modules/routeLoader';
 import connectMongo from './modules/connectMongo';
+import initEmailTransporter from './modules/initEmailTransporter';
 
 //load env vars
 if (process.env.NODE_ENV == 'development')
@@ -33,6 +34,7 @@ server.use(bodyParser.json());
             verbose: true,
             strict: true,
             binds: {
+                emailTransporter: initEmailTransporter()
             },
         });
         await routeLoader.loadDir();
