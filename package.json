@@ -11,7 +11,7 @@
     "chokidar": "^3.4.3",
     "cors": "^2.8.5",
     "custom-env": "^1.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jest": "^26.5.3",
     "mongoose": "^5.10.9"
   },
